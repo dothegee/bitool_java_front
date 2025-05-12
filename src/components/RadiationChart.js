@@ -134,6 +134,10 @@ import 'react-datepicker/dist/react-datepicker.css';             // DatePicker �
 
 import annotationPlugin from 'chartjs-plugin-annotation'; // threshold 날짜선 표시를 위해
 import { Chart } from 'chart.js';
+
+import { sendLogToServer } from '../utils/logUtils'; // 🔥 먼저 import 해줘야 함
+
+
 Chart.register(annotationPlugin); // 🔥 애노테이션 기능을 Chart.js에 등록
 
 // ✅ 방사선 감쇠량 시각화 컴포넌트 정의
@@ -161,6 +165,17 @@ const RadiationChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+              // ✅ 로그 전송: RadiationChart 조회 시작
+        await sendLogToServer({
+            level: 'info',
+            message: 'RadiationChart 데이터 요청',
+            meta: {
+            start: start.toISOString(),
+            end: end.toISOString(),
+            selectedDuration
+            }
+        });
+
         // 백엔드에서 데이터 조회 (start~end 범위로 쿼리 전달)
         const res = await api.get('/radiation-activity', {
           params: {

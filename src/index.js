@@ -1,3 +1,5 @@
+import './utils/clientLogger'; // ✅ 이 줄만 추가하면 자동 로그 저장 활성화!
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
